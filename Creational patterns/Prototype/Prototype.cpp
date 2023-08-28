@@ -3,21 +3,12 @@
 
 using namespace std;
 
-// Prototype Design Pattern
-//
-// Intent: Lets you copy existing objects without making your code dependent on
-// their classes.
-
 enum Type 
 {
     PROTOTYPE_1 = 0,
     PROTOTYPE_2
 };
 
-/**
- * The example class that has cloning ability. We'll see how the values of field
- * with different types will be cloned.
- */
 
 class Prototype 
 {
@@ -32,20 +23,12 @@ public:
     virtual ~Prototype() {}
 
     virtual Prototype* Clone() const = 0;
-    virtual void Method(float prototype_field) 
+    virtual void Method(float prototype_field)
     {
         this->_prototype_field = prototype_field;
         std::cout << "Call Method from " << _prototype_name << " with field : " << prototype_field << std::endl;
     }
 };
-
-/**
- * ConcretePrototype1 is a Sub-Class of Prototype and implement the Clone Method
- * In this example all data members of Prototype Class are in the Stack. If you
- * have pointers in your properties for ex: String* name_ ,you will need to
- * implement the Copy-Constructor to make sure you have a deep copy from the
- * clone method
- */
 
 class ConcretePrototype1 : public Prototype 
 {
@@ -56,12 +39,6 @@ public:
     ConcretePrototype1(string prototype_name, float concrete_prototype_field)
         : Prototype(prototype_name), _concrete_prototype_field1(concrete_prototype_field) {}
 
-    /**
-     * Notice that Clone method return a Pointer to a new ConcretePrototype1
-     * replica. so, the client (who call the clone method) has the responsability
-     * to free that memory. I you have smart pointer knowledge you may prefer to
-     * use unique_pointer here.
-     */
     Prototype* Clone() const override 
     {
         return new ConcretePrototype1(*this);
@@ -83,11 +60,6 @@ public:
     }
 };
 
-/**
- * In PrototypeFactory you have two concrete prototypes, one for each concrete
- * prototype class, so each time you want to create a bullet , you can use the
- * existing ones and clone those.
- */
 
 class PrototypeFactory 
 {
@@ -101,21 +73,12 @@ public:
         _prototypes[Type::PROTOTYPE_2] = new ConcretePrototype2("PROTOTYPE_2 ", 60.f);
     }
 
-    /**
-     * Be carefull of free all memory allocated. Again, if you have smart pointers
-     * knowelege will be better to use it here.
-     */
-
     ~PrototypeFactory() 
     {
         delete _prototypes[Type::PROTOTYPE_1];
         delete _prototypes[Type::PROTOTYPE_2];
     }
 
-    /**
-     * Notice here that you just need to specify the type of the prototype you
-     * want and the method will create from the object with this type.
-     */
     Prototype* CreatePrototype(Type type) 
     {
         return _prototypes[type]->Clone();
@@ -139,6 +102,7 @@ void Client(PrototypeFactory& prototype_factory)
 
     delete prototype;
 }
+
 
 int main() 
 {
