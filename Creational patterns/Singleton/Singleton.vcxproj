@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="Singleton.cpp" />
     <ClCompile Include="Singleton2.cpp" />
+    <ClCompile Include="Singleton3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
